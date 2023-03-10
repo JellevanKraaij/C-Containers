@@ -8,12 +8,13 @@ set (CMAKE_C_STANDARD_REQUIRED ON)
 
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wpedantic -Werror")
 
+# ---[ Tests ]------------------------------
+
+if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTS))
+	set (VECTOR_BUILD_TESTS ON)
+	enable_testing()
+endif()
+
 # ---[ Subprojects ]------------------------
 
 add_subdirectory(vector)
-
-# ---[ Tests ]------------------------------
-
-if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTS) OR VECTOR_BUILD_TESTS)
-	enable_testing()
-endif()
