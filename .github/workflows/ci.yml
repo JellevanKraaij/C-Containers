@@ -20,12 +20,13 @@ jobs:
       run: cmake --build ${{github.workspace}}/build
 
     - name: Test
-      working-directory: 
-      run: ctest --output-on-failure --test-dir ${{github.workspace}}/build
+      run: ctest --output-on-failure --test-dir ${{github.workspace}}/build\
+
   build:
-   strategy:
+    strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
 
