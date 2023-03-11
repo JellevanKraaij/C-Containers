@@ -8,12 +8,12 @@ void vector_destroy(t_vector *vector)
 
 	if (vector == NULL)
 		return;
-	if (vector->destroy != NULL)
+	if (vector->destroy_f != NULL)
 	{
 		i = 0;
 		while (i < vector->length)
 		{
-			vector->destroy(vector->data[i]);
+			vector->destroy_f(vector->data[i]);
 			i++;
 		}
 	}
@@ -25,4 +25,9 @@ void vector_destroy_null(t_vector **vector)
 {
 	vector_destroy(*vector);
 	*vector = NULL;
+}
+
+void vector_set_destroy_f(t_vector *vector, t_vector_destroy_f destroy_f)
+{
+	vector->destroy_f = destroy_f;
 }

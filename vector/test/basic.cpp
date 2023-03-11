@@ -26,21 +26,24 @@ TEST_F(BasicF, PushBack) {
 }
 
 TEST_F(BasicF, PopBack) {
+
+	ASSERT_FALSE(vector_pop_back(vector, nullptr));
+
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
-	ASSERT_NE(nullptr, vector_pop_back(&vector, nullptr));
+	ASSERT_TRUE(vector_pop_back(vector, nullptr));
 	EXPECT_EQ(1, vector_length(vector));
 
 	void *data = nullptr;
-	ASSERT_NE(nullptr, vector_pop_back(&vector, &data));
+	ASSERT_TRUE(vector_pop_back(vector, &data));
 	ASSERT_EQ(0, vector_length(vector));
 	EXPECT_EQ((void *)42, data);
 }
 
 TEST_F(BasicF, PushFront)
 {
-	ASSERT_NE(nullptr, vector_push_front(&vector, (void *)42));
-	ASSERT_NE(nullptr, vector_push_front(&vector, (void *)43));
+	ASSERT_TRUE(vector_push_front(&vector, (void *)42));
+	ASSERT_TRUE(vector_push_front(&vector, (void *)43));
 	ASSERT_EQ(2, vector_length(vector));
 	EXPECT_EQ((void *)43, vector_get(vector, 0));
 	EXPECT_EQ((void *)42, vector_get(vector, 1));
@@ -48,13 +51,15 @@ TEST_F(BasicF, PushFront)
 
 TEST_F(BasicF, PopFront)
 {
+	ASSERT_FALSE(vector_pop_front(vector, nullptr));
+
 	vector_push_front(&vector, (void *)42);
 	vector_push_front(&vector, (void *)43);
-	ASSERT_NE(nullptr, vector_pop_front(&vector, nullptr));
+	ASSERT_TRUE(vector_pop_front(vector, nullptr));
 	EXPECT_EQ(1, vector_length(vector));
 
 	void *data = nullptr;
-	ASSERT_NE(nullptr, vector_pop_front(&vector, &data));
+	ASSERT_TRUE(vector_pop_front(vector, &data));
 	ASSERT_EQ(0, vector_length(vector));
 	EXPECT_EQ((void *)42, data);
 }
@@ -124,3 +129,15 @@ TEST_F(BasicF, Clear)
 	vector_clear(vector);
 	ASSERT_EQ(0, vector_length(vector));
 }
+
+//TODO: Implement Destroy Function test
+
+// TEST_F(BasicF, DestroyFunction)
+// {
+// 	vector_push_back(&vector, (void *)42);
+// 	vector_push_back(&vector, (void *)43);
+// 	ASSERT_EQ(2, vector_length(vector));
+// 	vector_set_destroy_f(vector, {[](void *data) {  }});
+// 	ASSERT_EQ(0, *(int *)vector_get(vector, 0));
+// 	ASSERT_EQ(0, *(int *)vector_get(vector, 1));
+// }

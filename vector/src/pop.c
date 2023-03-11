@@ -2,23 +2,27 @@
 
 #include <string.h>
 
-t_vector *vector_pop_back(t_vector **vector, void **data)
+bool vector_pop_back(t_vector *vector, void **data)
 {
-	if ((*vector)->length == 0)
-		return (NULL);
+	if (vector->length == 0)
+		return (false);
 	if (data != NULL)
-		*data = vector_get(*vector, (*vector)->length - 1);
-	(*vector)->length--;
-	return (*vector);
+		*data = vector_get(vector, vector->length - 1);
+	else if (vector->destroy_f)
+		vector->destroy_f(vector->data[vector->length - 1]);
+	vector->length--;
+	return (true);
 }
 
-t_vector *vector_pop_front(t_vector **vector, void **data)
+bool vector_pop_front(t_vector *vector, void **data)
 {
-	if ((*vector)->length == 0)
-		return (NULL);
+	if (vector->length == 0)
+		return (false);
 	if (data != NULL)
-		*data = vector_get(*vector, 0);
-	memmove(&(*vector)->data[0], &(*vector)->data[1], ((*vector)->length - 1) * sizeof(void *));
-	(*vector)->length--;
-	return (*vector);
+		*data = vector_get(vector, 0);
+	else if (vector->destroy_f)
+		vector->destroy_f(vector->data[0]);
+	memmove(&vector->data[0], &vector->data[1], (vector->length - 1) * sizeof(void *));
+	vector->length--;
+	return (true);
 }

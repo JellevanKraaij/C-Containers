@@ -14,7 +14,7 @@ typedef struct t_vector {
 	void **data;
 	size_t length;
 	size_t capacity;
-	t_vector_destroy_f destroy;
+	t_vector_destroy_f destroy_f;
 } t_vector;
 
 // ---[ Create & Destroy functions ]--------------------------------------------------------------
@@ -48,8 +48,6 @@ void vector_destroy_null(t_vector **vector);
  */
 void vector_clear(t_vector *vector);
 
-// ---[ Stats functions ]-------------------------------------------------------------------------
-
 /**
  * 
  * @brief Reserve memory atleast for capacity elements
@@ -63,6 +61,19 @@ void vector_clear(t_vector *vector);
  * @return NULL if an error occured
  */
 t_vector *vector_reserve(t_vector **vector, size_t capacity);
+
+/**
+ * @brief Set the destroy function
+ * 
+ * @details The destroy function will be called when an element is overwritten or removed
+ * 
+ * @param vector 
+ * @param destroy function pointer
+ */
+
+void vector_set_destroy_f(t_vector *vector, t_vector_destroy_f destroy_f);
+
+// ---[ Stats functions ]-------------------------------------------------------------------------
 
 /**
  * @brief Get length of the vector
@@ -119,26 +130,27 @@ t_vector *vector_push_front(t_vector **vector, void *data);
 /**
  * @brief Remove the last element of the vector
  * 
- * @attention If this function fails, the vector is destroyed
+ * @attention If the data pointer is NULL, the element will be destroyed
  * 
  * @param vector 
  * @param data nullable pointer to the popped data
  * @return pointer to the vector
- * @return NULL if an error occured / vector is empty
+ * @return true if the vector is not empty
+ * @return false if the vector is empty
  */
-t_vector *vector_pop_back(t_vector **vector, void **data);
+bool vector_pop_back(t_vector *vector, void **data);
 
 /**
  * @brief Remove the first element of the vector
  * 
- * @attention If this function fails, the vector is destroyed
+ * @attention If the data pointer is NULL, the element will be destroyed
  * 
  * @param vector 
  * @param data nullable pointer will be set to the data
- * @return pointer to the vector
- * @return NULL if an error occured / vector is empty
+ * @return true if the vector is not empty
+ * @return false if the vector is empty
  */
-t_vector *vector_pop_front(t_vector **vector, void **data);
+bool vector_pop_front(t_vector *vector, void **data);
 
 // ---[ Get functions ]---------------------------------------------------------------------------
 
@@ -166,7 +178,9 @@ bool vector_at(const t_vector *vector, size_t index, void **data);
 // ---[ Set functions ]---------------------------------------------------------------------------
 
 /**
- * @brief Set the element at index and destroys the old data
+ * @brief Set the element at index
+ * 
+ * @attention The element at index will be destroyed if a destroy function is set
  * 
  * @param vector 
  * @param index 

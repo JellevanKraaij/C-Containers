@@ -4,12 +4,12 @@ void vector_clear(t_vector *vector)
 {
 	size_t i;
 
-	if (vector->destroy)
+	if (vector->destroy_f)
 	{
 		i = 0;
 		while (i < vector->length)
 		{
-			vector->destroy(vector->data[i]);
+			vector->destroy_f(vector->data[i]);
 			i++;
 		}
 	}
