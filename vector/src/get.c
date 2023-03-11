@@ -7,7 +7,7 @@ void *vector_get(const t_vector *vector, size_t index)
 
 bool vector_at(const t_vector *vector, size_t index, void **data)
 {
-	if (index >= vector->length)
+	if (!vector_valid_index(vector, index))
 		return (false);
 	if (data)
 		*data = vector_get(vector, index);

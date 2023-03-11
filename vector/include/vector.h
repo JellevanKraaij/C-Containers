@@ -18,10 +18,12 @@ typedef struct t_vector {
 } t_vector;
 
 // ---[ Create & Destroy functions ]--------------------------------------------------------------
+
 /**
  * @brief Create a new vector
  * 
- * @return t_vector* pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured
  */
 t_vector *vector_create(void);
 
@@ -39,6 +41,13 @@ void vector_destroy(t_vector *vector);
  */
 void vector_destroy_null(t_vector **vector);
 
+/**
+ * @brief Clear the vector
+ * 
+ * @param vector 
+ */
+void vector_clear(t_vector *vector);
+
 // ---[ Stats functions ]-------------------------------------------------------------------------
 
 /**
@@ -50,7 +59,8 @@ void vector_destroy_null(t_vector **vector);
  * 
  * @param vector 
  * @param capacity 
- * @return t_vector* pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured
  */
 t_vector *vector_reserve(t_vector **vector, size_t capacity);
 
@@ -58,7 +68,7 @@ t_vector *vector_reserve(t_vector **vector, size_t capacity);
  * @brief Get length of the vector
  * 
  * @param vector 
- * @return size_t vector length
+ * @return vector length
  */
 size_t vector_length(const t_vector *vector);
 
@@ -66,9 +76,19 @@ size_t vector_length(const t_vector *vector);
  * @brief Get capacity of the vector
  * 
  * @param vector 
- * @return size_t vector capacity
+ * @return vector capacity
  */
 size_t vector_capacity(const t_vector *vector);
+
+/**
+ * @brief Checks if index is valid
+ * 
+ * @param vector 
+ * @param index 
+ * @return true if index is valid
+ * @return false if index is invalid
+ */
+bool vector_valid_index(const t_vector *vector, size_t index);
 
 // ---[ Push & Pop functions ]--------------------------------------------------------------------
 
@@ -79,7 +99,8 @@ size_t vector_capacity(const t_vector *vector);
  * 
  * @param vector 
  * @param data 
- * @return t_vector* pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured
  */
 t_vector *vector_push_back(t_vector **vector, void *data);
 
@@ -90,7 +111,8 @@ t_vector *vector_push_back(t_vector **vector, void *data);
  * 
  * @param vector 
  * @param data 
- * @return t_vector* pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured
  */
 t_vector *vector_push_front(t_vector **vector, void *data);
 
@@ -101,16 +123,20 @@ t_vector *vector_push_front(t_vector **vector, void *data);
  * 
  * @param vector 
  * @param data nullable pointer to the popped data
- * @return t_vector*  pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured / vector is empty
  */
 t_vector *vector_pop_back(t_vector **vector, void **data);
 
 /**
  * @brief Remove the first element of the vector
  * 
+ * @attention If this function fails, the vector is destroyed
+ * 
  * @param vector 
  * @param data nullable pointer will be set to the data
- * @return t_vector* pointer to the vector or NULL if an error occured
+ * @return pointer to the vector
+ * @return NULL if an error occured / vector is empty
  */
 t_vector *vector_pop_front(t_vector **vector, void **data);
 
@@ -122,7 +148,7 @@ t_vector *vector_pop_front(t_vector **vector, void **data);
  * 
  * @param vector 
  * @param index 
- * @return void* pointer to the data
+ * @return pointer to the data
  */
 void *vector_get(const t_vector *vector, size_t index);
 
@@ -132,9 +158,22 @@ void *vector_get(const t_vector *vector, size_t index);
  * @param vector 
  * @param index 
  * @param data nullable pointer will be set to the data
- * @return bool true if the index is valid, false otherwise
+ * @return true if the index is valid
+ * @return false if the index is invalid
  */
 bool vector_at(const t_vector *vector, size_t index, void **data);
 
+// ---[ Set functions ]---------------------------------------------------------------------------
+
+/**
+ * @brief Set the element at index and destroys the old data
+ * 
+ * @param vector 
+ * @param index 
+ * @param data 
+ * @return true if the index is valid
+ * @return false if the index is invalid
+ */
+bool vector_set(t_vector *vector, size_t index, void *data);
 
 #endif

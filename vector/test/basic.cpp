@@ -91,3 +91,36 @@ TEST_F(BasicF, AtFail)
 	EXPECT_FALSE(vector_at(vector, 3, &data));
 	EXPECT_EQ(nullptr, data);
 }
+
+TEST_F(BasicF, Set)
+{
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+	EXPECT_EQ((void *)42, vector_get(vector, 0));
+	EXPECT_EQ((void *)43, vector_get(vector, 1));
+
+	vector_set(vector, 0, (void *)44);
+	vector_set(vector, 1, (void *)45);
+	EXPECT_EQ((void *)44, vector_get(vector, 0));
+	EXPECT_EQ((void *)45, vector_get(vector, 1));
+}
+
+TEST_F(BasicF, SetFail)
+{
+	EXPECT_FALSE(vector_set(vector, 0, (void *)42));
+	EXPECT_FALSE(vector_set(vector, 1, (void *)42));
+
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+	EXPECT_FALSE(vector_set(vector, 2, (void *)42));
+	EXPECT_FALSE(vector_set(vector, 3, (void *)42));
+}
+
+TEST_F(BasicF, Clear)
+{
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+	ASSERT_EQ(2, vector_length(vector));
+	vector_clear(vector);
+	ASSERT_EQ(0, vector_length(vector));
+}
