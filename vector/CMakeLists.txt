@@ -11,8 +11,10 @@ add_library(${LIB_NAME} STATIC
 	src/create.c
 	src/destroy.c
 	src/get.c
+	src/insert.c
 	src/pop.c
 	src/push.c
+	src/remove.c
 	src/resize.c
 	src/set.c
 	src/stats.c

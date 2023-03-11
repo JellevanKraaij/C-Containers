@@ -17,7 +17,7 @@ typedef struct t_vector {
 	t_vector_destroy_f destroy_f;
 } t_vector;
 
-// ---[ Create & Destroy functions ]--------------------------------------------------------------
+// ---[ Create & Destroy & Memory functions ]--------------------------------------------------------------
 
 /**
  * @brief Create a new vector
@@ -63,6 +63,17 @@ void vector_clear(t_vector *vector);
 t_vector *vector_reserve(t_vector **vector, size_t capacity);
 
 /**
+ * @brief Shrink the vector to the minimum capacity
+ * 
+ * @attention If this function fails, the vector is destroyed
+ * 
+ * @param vector 
+ * @return pointer to the vector
+ * @return NULL if an error occured
+ */
+t_vector *vector_shrink(t_vector **vector);
+
+/**
  * @brief Set the destroy function
  * 
  * @details The destroy function will be called when an element is overwritten or removed
@@ -72,6 +83,7 @@ t_vector *vector_reserve(t_vector **vector, size_t capacity);
  */
 
 void vector_set_destroy_f(t_vector *vector, t_vector_destroy_f destroy_f);
+
 
 // ---[ Stats functions ]-------------------------------------------------------------------------
 
@@ -101,7 +113,7 @@ size_t vector_capacity(const t_vector *vector);
  */
 bool vector_valid_index(const t_vector *vector, size_t index);
 
-// ---[ Push & Pop functions ]--------------------------------------------------------------------
+// ---[ Add functions ]---------------------------------------------------------------------------
 
 /**
  * @brief Add an element to the end of the vector
@@ -128,6 +140,23 @@ t_vector *vector_push_back(t_vector **vector, void *data);
 t_vector *vector_push_front(t_vector **vector, void *data);
 
 /**
+ * @brief Insert an element at index
+ * 
+ * @attention If this function fails, the vector is destroyed
+ * @attention If the index is equal or greater than the length, the element will be added to the end
+ * 
+ * @param vector 
+ * @param index 
+ * @param data 
+ * @return pointer to the vector
+ * @return NULL if an error occured
+ */
+t_vector *vector_insert(t_vector **vector, size_t index, void *data);
+
+
+// ---[ Remove functions ]------------------------------------------------------------------------
+
+/**
  * @brief Remove the last element of the vector
  * 
  * @attention If the data pointer is NULL, the element will be destroyed
@@ -151,6 +180,31 @@ bool vector_pop_back(t_vector *vector, void **data);
  * @return false if the vector is empty
  */
 bool vector_pop_front(t_vector *vector, void **data);
+
+/**
+ * @brief Remove the element at index
+ * 
+ * @attention If the data pointer is NULL, the element will be destroyed
+ * 
+ * @param vector 
+ * @param index 
+ * @param data nullable pointer will be set to the data
+ * @return true if the index is valid
+ * @return false if the index is invalid
+ */
+bool vector_pop(t_vector *vector, size_t index, void **data);
+
+/**
+ * @brief Remove the element at index
+ * 
+ * @attention The element at index will be destroyed
+ * 
+ * @param vector 
+ * @param index 
+ * @return true if the index is valid
+ * @return false if the index is invalid
+ */
+bool vector_remove(t_vector *vector, size_t index);
 
 // ---[ Get functions ]---------------------------------------------------------------------------
 
@@ -180,7 +234,7 @@ bool vector_at(const t_vector *vector, size_t index, void **data);
 /**
  * @brief Set the element at index
  * 
- * @attention The element at index will be destroyed if a destroy function is set
+ * @attention The element at index will be destroyed
  * 
  * @param vector 
  * @param index 
@@ -189,5 +243,20 @@ bool vector_at(const t_vector *vector, size_t index, void **data);
  * @return false if the index is invalid
  */
 bool vector_set(t_vector *vector, size_t index, void *data);
+
+// ---[ Modify functions ]------------------------------------------------------------------------
+
+/**
+ * @brief Truncate the vector to length
+ * 
+ * @attention Removed elements are destroyed
+ * @attention If the length is greater than the current length, nothing happens
+ * 
+ * @param vector 
+ * @param length 
+ * @return true if the vector was truncated
+ * @return false if the length is greater than the current length
+ */
+void vector_truncate(t_vector *vector, size_t length);
 
 #endif
