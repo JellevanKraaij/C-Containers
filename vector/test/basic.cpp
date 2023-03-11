@@ -6,7 +6,7 @@ extern "C" {
 #include <gtest/gtest.h>
 #include "BasicFixture.hpp"
 
-TEST(Basic, createAndDestroy) {
+TEST(Basic, CreateAndDestroy) {
 	t_vector *vector = vector_create();
 	ASSERT_NE(nullptr, vector);
 	vector_destroy(vector);
@@ -130,14 +130,40 @@ TEST_F(BasicF, Clear)
 	ASSERT_EQ(0, vector_length(vector));
 }
 
-//TODO: Implement Destroy Function test
+static int destroy_f_called = 0;
+void destroy_f(void *data)
+{
+	(void)data;
+	destroy_f_called++;
+}
 
-// TEST_F(BasicF, DestroyFunction)
-// {
-// 	vector_push_back(&vector, (void *)42);
-// 	vector_push_back(&vector, (void *)43);
-// 	ASSERT_EQ(2, vector_length(vector));
-// 	vector_set_destroy_f(vector, {[](void *data) {  }});
-// 	ASSERT_EQ(0, *(int *)vector_get(vector, 0));
-// 	ASSERT_EQ(0, *(int *)vector_get(vector, 1));
-// }
+TEST_F(BasicF, DestroyFunction)
+{
+	destroy_f_called = 0;
+	vector_set_destroy_f(vector, destroy_f);
+
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+
+	vector_pop_back(vector, nullptr);
+	vector_set(vector, 0, (void *)45);
+	vector_pop_front(vector, nullptr);
+	
+	EXPECT_EQ(3, destroy_f_called);
+
+	destroy_f_called = 0;
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+
+	vector_clear(vector);
+	EXPECT_EQ(2, destroy_f_called);
+
+	destroy_f_called = 0;
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+
+	vector_destroy(vector);
+	EXPECT_EQ(2, destroy_f_called);
+
+	vector = NULL;
+}
