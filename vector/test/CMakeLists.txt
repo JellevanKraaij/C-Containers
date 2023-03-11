@@ -33,5 +33,5 @@ target_link_options(${TEST_EXECUTABLE_NAME} PRIVATE -g3 -fsanitize=address)
 
 
 # ---[ Setup CTest ]-----------------------
-gtest_discover_tests(${TEST_EXECUTABLE_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} TEST_PREFIX "C-Containers/Vector")
+gtest_discover_tests(${TEST_EXECUTABLE_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} TEST_PREFIX "Vector/")
 enable_testing()

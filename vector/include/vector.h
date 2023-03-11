@@ -46,6 +46,7 @@ void vector_destroy_null(t_vector **vector);
  * @brief Reserve memory atleast for capacity elements
  * 
  * @details If the capacite is smaller than or equal to the current capacity, nothing happens
+ * @attention If this function fails, the vector is destroyed
  * 
  * @param vector 
  * @param capacity 
@@ -74,6 +75,8 @@ size_t vector_capacity(const t_vector *vector);
 /**
  * @brief Add an element to the end of the vector
  * 
+ * @attention If this function fails, the vector is destroyed
+ * 
  * @param vector 
  * @param data 
  * @return t_vector* pointer to the vector or NULL if an error occured
@@ -83,6 +86,8 @@ t_vector *vector_push_back(t_vector **vector, void *data);
 /**
  * @brief Add an element to the front of the vector
  * 
+ * @attention If this function fails, the vector is destroyed
+ * 
  * @param vector 
  * @param data 
  * @return t_vector* pointer to the vector or NULL if an error occured
@@ -91,6 +96,8 @@ t_vector *vector_push_front(t_vector **vector, void *data);
 
 /**
  * @brief Remove the last element of the vector
+ * 
+ * @attention If this function fails, the vector is destroyed
  * 
  * @param vector 
  * @param data nullable pointer to the popped data
@@ -102,7 +109,7 @@ t_vector *vector_pop_back(t_vector **vector, void **data);
  * @brief Remove the first element of the vector
  * 
  * @param vector 
- * @param data nullable pointer to the popped data
+ * @param data nullable pointer will be set to the data
  * @return t_vector* pointer to the vector or NULL if an error occured
  */
 t_vector *vector_pop_front(t_vector **vector, void **data);
@@ -124,10 +131,10 @@ void *vector_get(const t_vector *vector, size_t index);
  * 
  * @param vector 
  * @param index 
- * @param data pointer to the data
- * @return const t_vector* pointer to the vector or NULL if an error occured
+ * @param data nullable pointer will be set to the data
+ * @return bool true if the index is valid, false otherwise
  */
-const t_vector *vector_at(const t_vector *vector, size_t index, void **data);
+bool vector_at(const t_vector *vector, size_t index, void **data);
 
 
 #endif

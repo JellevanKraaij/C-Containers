@@ -28,10 +28,10 @@ TEST_F(BasicF, PushBack) {
 TEST_F(BasicF, PopBack) {
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
-	ASSERT_NE(nullptr, vector_pop_back(&vector, NULL));
+	ASSERT_NE(nullptr, vector_pop_back(&vector, nullptr));
 	EXPECT_EQ(1, vector_length(vector));
 
-	void *data = NULL;
+	void *data = nullptr;
 	ASSERT_NE(nullptr, vector_pop_back(&vector, &data));
 	ASSERT_EQ(0, vector_length(vector));
 	EXPECT_EQ((void *)42, data);
@@ -50,10 +50,10 @@ TEST_F(BasicF, PopFront)
 {
 	vector_push_front(&vector, (void *)42);
 	vector_push_front(&vector, (void *)43);
-	ASSERT_NE(nullptr, vector_pop_front(&vector, NULL));
+	ASSERT_NE(nullptr, vector_pop_front(&vector, nullptr));
 	EXPECT_EQ(1, vector_length(vector));
 
-	void *data = NULL;
+	void *data = nullptr;
 	ASSERT_NE(nullptr, vector_pop_front(&vector, &data));
 	ASSERT_EQ(0, vector_length(vector));
 	EXPECT_EQ((void *)42, data);
@@ -72,22 +72,22 @@ TEST_F(BasicF, At)
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
 
-	void *data = NULL;
-	ASSERT_NE(nullptr, vector_at(vector, 0, &data));
+	void *data = nullptr;
+	ASSERT_TRUE(vector_at(vector, 0, &data));
 	EXPECT_EQ((void *)42, data);
-	ASSERT_NE(nullptr, vector_at(vector, 1, &data));
+	ASSERT_TRUE(vector_at(vector, 1, &data));
 	EXPECT_EQ((void *)43, data);
 }
 
 TEST_F(BasicF, AtFail)
 {
-	EXPECT_EQ(nullptr, vector_at(vector, 0, NULL));
+	EXPECT_FALSE(vector_at(vector, 0, nullptr));
 
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
 
-	void *data = NULL;
-	EXPECT_EQ(nullptr, vector_at(vector, 2, &data));
-	EXPECT_EQ(nullptr, vector_at(vector, 3, &data));
+	void *data = nullptr;
+	EXPECT_FALSE(vector_at(vector, 2, &data));
+	EXPECT_FALSE(vector_at(vector, 3, &data));
 	EXPECT_EQ(nullptr, data);
 }
