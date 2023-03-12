@@ -8,13 +8,34 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-typedef void (*t_vector_destroy_f)(void *);
+/**
+ * @brief Compare function
+ * 
+ * @param a pointer to data to compare
+ * @param b pointer to data to compare
+ * 
+ * @return int 0 when equal
+ * @return int < 0 when a < b
+ * @return int > 0 when a > b
+ * 
+ */
+typedef int (*t_vector_cmp_fn)(const void *a, const void *b);
+
+/**
+ * @brief Destroy function
+ * 
+ * @param data pointer to data to destroy
+ * 
+ */
+typedef void (*t_vector_destroy_fn)(void *data);
 
 typedef struct t_vector {
 	void **data;
 	size_t length;
 	size_t capacity;
-	t_vector_destroy_f destroy_f;
+	t_vector_destroy_fn destroy_fn;
+	t_vector_cmp_fn cmp_fn;
+	
 } t_vector;
 
 // ---[ Create & Destroy & Memory functions ]--------------------------------------------------------------
@@ -79,11 +100,20 @@ t_vector *vector_shrink(t_vector **vector);
  * @details The destroy function will be called when an element is overwritten or removed
  * 
  * @param vector 
- * @param destroy function pointer
+ * @param destroy_fn function pointer
  */
 
-void vector_set_destroy_f(t_vector *vector, t_vector_destroy_f destroy_f);
+void vector_set_destroy_fn(t_vector *vector, t_vector_destroy_fn destroy_fn);
 
+/**
+ * @brief Set the compare function
+ * 
+ * @details The compare function will be called when an element is searched / sorted
+ * 
+ * @param vector 
+ * @param cmp_fn function pointer
+ */
+void vector_set_compare_fn(t_vector *vector, t_vector_cmp_fn compare_fn);
 
 // ---[ Stats functions ]-------------------------------------------------------------------------
 

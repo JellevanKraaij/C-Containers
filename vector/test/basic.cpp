@@ -177,7 +177,7 @@ TEST_F(BasicF, Clear)
 }
 
 static int destroy_f_called = 0;
-void destroy_f(void *data)
+void destroy_fn(void *data)
 {
 	(void)data;
 	destroy_f_called++;
@@ -187,7 +187,7 @@ TEST_F(BasicF, DestroyFunction)
 {
 	// Test indivual functions that destroy data
 	destroy_f_called = 0;
-	vector_set_destroy_f(vector, destroy_f);
+	vector_set_destroy_fn(vector, destroy_fn);
 
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);

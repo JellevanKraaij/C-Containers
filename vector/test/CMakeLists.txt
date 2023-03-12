@@ -17,6 +17,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(
 	${TEST_EXECUTABLE_NAME}
 	basic.cpp
+	algo.cpp
 )
 
 target_link_libraries(

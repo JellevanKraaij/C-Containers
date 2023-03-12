@@ -18,6 +18,7 @@ add_library(${LIB_NAME} STATIC
 	src/resize.c
 	src/set.c
 	src/stats.c
+	src/algo/find.c
 )
 
 # ---[ Include directories ]----------------
