@@ -103,12 +103,12 @@ void vector_set_compare_fn(t_vector *vector, t_vector_cmp_fn compare_fn, void *u
 // ---[ Stats functions ]-------------------------------------------------------------------------
 
 /**
- * @brief Get length of the vector
+ * @brief Get size of the vector (number of elements)
  * 
  * @param vector 
- * @return vector length
+ * @return vector size
  */
-size_t vector_length(const t_vector *vector);
+size_t vector_size(const t_vector *vector);
 
 /**
  * @brief Get capacity of the vector

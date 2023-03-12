@@ -17,12 +17,12 @@ TEST_F(BasicF, Reserve) {
 	ASSERT_GE(vector_capacity(vector), 10);	
 }
 
-TEST_F(BasicF, Length) {
-	ASSERT_EQ(0, vector_length(vector));
+TEST_F(BasicF, Size) {
+	ASSERT_EQ(0, vector_size(vector));
 	vector_push_back(&vector, (void *)42);
-	ASSERT_EQ(1, vector_length(vector));
+	ASSERT_EQ(1, vector_size(vector));
 	vector_push_back(&vector, (void *)43);
-	ASSERT_EQ(2, vector_length(vector));
+	ASSERT_EQ(2, vector_size(vector));
 }
 
 TEST_F(BasicF, Capacity) {
@@ -49,7 +49,7 @@ TEST_F(BasicF, Shrink)
 TEST_F(BasicF, PushBack) {
 	ASSERT_NE(nullptr, vector_push_back(&vector, (void *)42));
 	ASSERT_NE(nullptr, vector_push_back(&vector, (void *)43));
-	ASSERT_EQ(2, vector_length(vector));
+	ASSERT_EQ(2, vector_size(vector));
 	EXPECT_EQ((void *)42, vector_get(vector, 0));
 	EXPECT_EQ((void *)43, vector_get(vector, 1));
 }
@@ -58,7 +58,7 @@ TEST_F(BasicF, PushFront)
 {
 	ASSERT_TRUE(vector_push_front(&vector, (void *)42));
 	ASSERT_TRUE(vector_push_front(&vector, (void *)43));
-	ASSERT_EQ(2, vector_length(vector));
+	ASSERT_EQ(2, vector_size(vector));
 	EXPECT_EQ((void *)43, vector_get(vector, 0));
 	EXPECT_EQ((void *)42, vector_get(vector, 1));
 }
@@ -71,11 +71,11 @@ TEST_F(BasicF, Pop)
 	vector_push_back(&vector, (void *)43);
 	vector_push_back(&vector, (void *)44);
 	ASSERT_TRUE(vector_pop(vector, 1, nullptr));
-	EXPECT_EQ(2, vector_length(vector));
+	EXPECT_EQ(2, vector_size(vector));
 
 	void *data = nullptr;
 	ASSERT_TRUE(vector_pop(vector, 0, &data));
-	ASSERT_EQ(1, vector_length(vector));
+	ASSERT_EQ(1, vector_size(vector));
 	EXPECT_EQ((void *)42, data);
 }
 
@@ -86,11 +86,11 @@ TEST_F(BasicF, PopBack) {
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
 	ASSERT_TRUE(vector_pop_back(vector, nullptr));
-	EXPECT_EQ(1, vector_length(vector));
+	EXPECT_EQ(1, vector_size(vector));
 
 	void *data = nullptr;
 	ASSERT_TRUE(vector_pop_back(vector, &data));
-	ASSERT_EQ(0, vector_length(vector));
+	ASSERT_EQ(0, vector_size(vector));
 	EXPECT_EQ((void *)42, data);
 }
 
@@ -101,11 +101,11 @@ TEST_F(BasicF, PopFront)
 	vector_push_front(&vector, (void *)42);
 	vector_push_front(&vector, (void *)43);
 	ASSERT_TRUE(vector_pop_front(vector, nullptr));
-	EXPECT_EQ(1, vector_length(vector));
+	EXPECT_EQ(1, vector_size(vector));
 
 	void *data = nullptr;
 	ASSERT_TRUE(vector_pop_front(vector, &data));
-	ASSERT_EQ(0, vector_length(vector));
+	ASSERT_EQ(0, vector_size(vector));
 	EXPECT_EQ((void *)42, data);
 }
 
@@ -171,9 +171,9 @@ TEST_F(BasicF, Clear)
 {
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
-	ASSERT_EQ(2, vector_length(vector));
+	ASSERT_EQ(2, vector_size(vector));
 	vector_clear(vector);
-	ASSERT_EQ(0, vector_length(vector));
+	ASSERT_EQ(0, vector_size(vector));
 }
 
 void destroy_fn(void *data, void *user_data)
@@ -228,7 +228,7 @@ TEST_F(BasicF, Insert)
 	ASSERT_NE(nullptr ,vector_insert(&vector, 2, (void *)43));
 	ASSERT_NE(nullptr ,vector_insert(&vector, 5, (void *)46));
 	ASSERT_NE(nullptr ,vector_insert(&vector, 42, (void *)47));
-	ASSERT_EQ(7, vector_length(vector));
+	ASSERT_EQ(7, vector_size(vector));
 	EXPECT_EQ((void *)41, vector_get(vector, 0));
 	EXPECT_EQ((void *)42, vector_get(vector, 1));
 	EXPECT_EQ((void *)43, vector_get(vector, 2));
@@ -245,11 +245,11 @@ TEST_F(BasicF, Remove)
 	vector_push_back(&vector, (void *)44);
 
 	ASSERT_TRUE(vector_remove(vector, 1));
-	ASSERT_EQ(2, vector_length(vector));
+	ASSERT_EQ(2, vector_size(vector));
 	EXPECT_EQ((void *)44, vector_get(vector, 1));
 
 	vector_remove(vector, 1);
-	ASSERT_EQ(1, vector_length(vector));
+	ASSERT_EQ(1, vector_size(vector));
 	EXPECT_EQ((void *)42, vector_get(vector, 0));
 }
 
@@ -276,15 +276,15 @@ TEST_F(BasicF, Truncate)
 	vector_push_back(&vector, (void *)44);
 
 	vector_truncate(vector, 42);
-	ASSERT_EQ(3, vector_length(vector));
+	ASSERT_EQ(3, vector_size(vector));
 
 	vector_truncate(vector, 3);
-	ASSERT_EQ(3, vector_length(vector));
+	ASSERT_EQ(3, vector_size(vector));
 
 	vector_truncate(vector, 1);
-	ASSERT_EQ(1, vector_length(vector));
+	ASSERT_EQ(1, vector_size(vector));
 	EXPECT_EQ((void *)42, vector_get(vector, 0));
 
 	vector_truncate(vector, 0);
-	ASSERT_EQ(0, vector_length(vector));
+	ASSERT_EQ(0, vector_size(vector));
 }

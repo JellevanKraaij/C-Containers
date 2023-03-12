@@ -1,6 +1,6 @@
 #include "vector.h"
 
-size_t vector_length(const t_vector *vector)
+size_t vector_size(const t_vector *vector)
 {
 	return (vector->length);
 }
