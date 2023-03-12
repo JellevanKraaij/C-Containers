@@ -19,7 +19,7 @@
  * @return int > 0 when a > b
  * 
  */
-typedef int (*t_vector_cmp_fn)(const void *a, const void *b);
+typedef int (*t_vector_cmp_fn)(const void *a, const void *b, void *user_data);
 
 /**
  * @brief Destroy function
@@ -27,15 +27,18 @@ typedef int (*t_vector_cmp_fn)(const void *a, const void *b);
  * @param data pointer to data to destroy
  * 
  */
-typedef void (*t_vector_destroy_fn)(void *data);
+typedef void (*t_vector_destroy_fn)(void *data, void *user_data);
+
+typedef void (*t_vector_destroy_data_fn)(void *data, void *user_data);
 
 typedef struct t_vector {
 	void **data;
 	size_t length;
 	size_t capacity;
 	t_vector_destroy_fn destroy_fn;
+	void *destroy_user_data;
 	t_vector_cmp_fn cmp_fn;
-	
+	void *cmp_user_data;
 } t_vector;
 
 // ---[ Create & Destroy & Memory functions ]--------------------------------------------------------------
@@ -101,9 +104,9 @@ t_vector *vector_shrink(t_vector **vector);
  * 
  * @param vector 
  * @param destroy_fn function pointer
+ * @param user_data user data to pass to the destroy function
  */
-
-void vector_set_destroy_fn(t_vector *vector, t_vector_destroy_fn destroy_fn);
+void vector_set_destroy_fn(t_vector *vector, t_vector_destroy_fn destroy_fn, void *user_data);
 
 /**
  * @brief Set the compare function
@@ -112,8 +115,9 @@ void vector_set_destroy_fn(t_vector *vector, t_vector_destroy_fn destroy_fn);
  * 
  * @param vector 
  * @param cmp_fn function pointer
+ * @param user_data user data to pass to the compare function
  */
-void vector_set_compare_fn(t_vector *vector, t_vector_cmp_fn compare_fn);
+void vector_set_compare_fn(t_vector *vector, t_vector_cmp_fn compare_fn, void *user_data);
 
 // ---[ Stats functions ]-------------------------------------------------------------------------
 

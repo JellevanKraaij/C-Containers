@@ -176,18 +176,18 @@ TEST_F(BasicF, Clear)
 	ASSERT_EQ(0, vector_length(vector));
 }
 
-static int destroy_f_called = 0;
-void destroy_fn(void *data)
+void destroy_fn(void *data, void *user_data)
 {
-	(void)data;
-	destroy_f_called++;
+	(void)(data);
+	int *destroy_f_called = (int *)user_data;
+	(*destroy_f_called)++;
 }
 
 TEST_F(BasicF, DestroyFunction)
 {
 	// Test indivual functions that destroy data
-	destroy_f_called = 0;
-	vector_set_destroy_fn(vector, destroy_fn);
+	int destroy_f_called = 0;
+	vector_set_destroy_fn(vector, destroy_fn, &destroy_f_called);
 
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);

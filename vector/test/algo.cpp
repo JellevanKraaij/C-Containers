@@ -28,8 +28,9 @@ TEST_F(AlgoF, Find)
 }
 
 // Inversed compare function
-int cmp_fn(const void *a, const void *b)
+int cmp_fn(const void *a, const void *b, void *user_data)
 {
+	EXPECT_EQ((void *)42, user_data);
 	if ((size_t)a == ((size_t)b - 1) )
 		return 0;
 	return 1;
@@ -39,7 +40,7 @@ TEST_F(AlgoF, CompareFN)
 {
 	size_t index = 0;
 
-	vector_set_compare_fn(vector, cmp_fn);
+	vector_set_compare_fn(vector, cmp_fn, (void *)42);
 	ASSERT_TRUE(vector_find(vector, (void *)43, &index));
 
 	EXPECT_TRUE(index == 0 || index == 2);

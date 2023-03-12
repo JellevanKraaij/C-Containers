@@ -12,6 +12,8 @@ t_vector *vector_create(void)
 	vector->capacity = 0;
 	vector->data = NULL;
 	vector->destroy_fn = NULL;
+	vector->destroy_user_data = NULL;
 	vector->cmp_fn = NULL;
+	vector->cmp_user_data = NULL;
 	return (vector);
 }

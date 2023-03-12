@@ -13,7 +13,7 @@ void vector_destroy(t_vector *vector)
 		i = 0;
 		while (i < vector->length)
 		{
-			vector->destroy_fn(vector->data[i]);
+			vector->destroy_fn(vector->data[i], vector->destroy_user_data);
 			i++;
 		}
 	}
