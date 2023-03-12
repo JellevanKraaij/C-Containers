@@ -274,4 +274,16 @@ bool vector_set(t_vector *vector, size_t index, void *data);
  */
 void vector_truncate(t_vector *vector, size_t length);
 
+/**
+ * @brief Resize the vector to length
+ * 
+ * @attention If the length is greater than the current length, the vector will be extended NULL elements
+ * @attention If the length is smaller than the current length, the vector will be truncated
+ * @attention Removed elements are destroyed
+ * 
+ * @param vector 
+ * @param length 
+ */
+t_vector *vector_resize(t_vector **vector, size_t length);
+
 #endif

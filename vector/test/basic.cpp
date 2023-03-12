@@ -192,6 +192,12 @@ TEST_F(BasicF, DestroyFunction)
 	vector_push_back(&vector, (void *)42);
 	vector_push_back(&vector, (void *)43);
 	vector_push_back(&vector, (void *)44);
+	vector_push_back(&vector, (void *)45);
+
+	vector_resize(&vector, 3);
+	EXPECT_EQ(1, destroy_f_called);
+
+	destroy_f_called = 0;
 
 	vector_pop_back(vector, nullptr);
 	vector_set(vector, 0, (void *)45);
@@ -286,5 +292,27 @@ TEST_F(BasicF, Truncate)
 	EXPECT_EQ((void *)42, vector_get(vector, 0));
 
 	vector_truncate(vector, 0);
+	ASSERT_EQ(0, vector_size(vector));
+}
+
+TEST_F(BasicF, Resize)
+{
+	vector_push_back(&vector, (void *)42);
+	vector_push_back(&vector, (void *)43);
+	vector_push_back(&vector, (void *)44);
+
+	ASSERT_NE(nullptr, vector_resize(&vector, 42));
+	ASSERT_EQ(42, vector_size(vector));
+	EXPECT_EQ(nullptr, vector_get(vector, 41));
+
+	ASSERT_NE(nullptr, vector_resize(&vector, 3));
+	ASSERT_EQ(3, vector_size(vector));
+	EXPECT_EQ((void *)44, vector_get(vector, 2));
+
+	ASSERT_NE(nullptr, vector_resize(&vector, 1));
+	ASSERT_EQ(1, vector_size(vector));
+	EXPECT_EQ((void *)42, vector_get(vector, 0));
+
+	ASSERT_NE(nullptr, vector_resize(&vector, 0));
 	ASSERT_EQ(0, vector_size(vector));
 }

@@ -13,22 +13,3 @@ bool vector_remove(t_vector *vector, size_t index)
 	vector->length--;
 	return (true);
 }
-
-void vector_truncate(t_vector *vector, size_t length)
-{
-	size_t i;
-
-	if (length > vector->length)
-		return ;
-
-	if (vector->destroy_fn)
-	{
-		i = length;
-		while (i < vector->length)
-		{
-			vector->destroy_fn(vector->data[i], vector->destroy_user_data);
-			i++;
-		}
-	}
-	vector->length = length;
-}
