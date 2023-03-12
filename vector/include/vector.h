@@ -8,28 +8,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-/**
- * @brief Compare function
- * 
- * @param a pointer to data to compare
- * @param b pointer to data to compare
- * 
- * @return int 0 when equal
- * @return int < 0 when a < b
- * @return int > 0 when a > b
- * 
- */
 typedef int (*t_vector_cmp_fn)(const void *a, const void *b, void *user_data);
-
-/**
- * @brief Destroy function
- * 
- * @param data pointer to data to destroy
- * 
- */
 typedef void (*t_vector_destroy_fn)(void *data, void *user_data);
-
-typedef void (*t_vector_destroy_data_fn)(void *data, void *user_data);
 
 typedef struct t_vector {
 	void **data;
@@ -112,6 +92,7 @@ void vector_set_destroy_fn(t_vector *vector, t_vector_destroy_fn destroy_fn, voi
  * @brief Set the compare function
  * 
  * @details The compare function will be called when an element is searched / sorted
+ * @details The compare function should return 0 if a == b, < 0 if a < b and > 0 if a > b
  * 
  * @param vector 
  * @param cmp_fn function pointer
