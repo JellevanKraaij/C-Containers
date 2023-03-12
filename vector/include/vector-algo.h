@@ -3,9 +3,6 @@
 
 #include "vector.h"
 
-// TODO: Add search algorithms
-// TODO: Add sort algorithms? not a priority
-
 /**
  * @brief Find an element in the vector
  * 
