@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#if defined(__cplusplus) &&  !defined(VECTOR_OVERRIDE_CXX)
+#if defined(__cplusplus) &&  !defined(C_CONTAINER_OVERRIDE_CXX)
 #warning "Just use the c++ std::vector bruh"
 #endif
 

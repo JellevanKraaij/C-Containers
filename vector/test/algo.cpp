@@ -1,6 +1,6 @@
 extern "C"
 {
-	#define VECTOR_OVERRIDE_CXX
+	#define C_CONTAINER_OVERRIDE_CXX
 	#include <vector.h>
 	#include <vector-algo.h>
 }

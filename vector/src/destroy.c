@@ -4,19 +4,9 @@
 
 void vector_destroy(t_vector *vector)
 {
-	size_t i;
-
 	if (vector == NULL)
 		return;
-	if (vector->destroy_fn != NULL)
-	{
-		i = 0;
-		while (i < vector->length)
-		{
-			vector->destroy_fn(vector->data[i], vector->destroy_user_data);
-			i++;
-		}
-	}
+	vector_clear(vector);
 	free(vector->data);
 	free(vector);
 }

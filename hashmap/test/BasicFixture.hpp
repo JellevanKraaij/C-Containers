@@ -1,22 +1,22 @@
 #pragma once
 
 extern "C" {
-	#define C_CONTAINER_OVERRIDE_CXX
-	#include <vector.h>
+	#define  C_CONTAINER_OVERRIDE_CXX
+	#include <hashmap.h>
 }
 
 #include <gtest/gtest.h>
 
 class BasicF : public ::testing::Test {
 protected:
-	t_vector *vector;
+	t_hashmap *hashmap;
 
 	virtual void SetUp() {
-		vector = vector_create();
-		ASSERT_NE(vector, nullptr);
+		hashmap = hashmap_create();
+		ASSERT_NE(hashmap, nullptr);
 	}
 
 	virtual void TearDown() {
-		vector_destroy(vector);
+		hashmap_destroy(hashmap);
 	}
 };
