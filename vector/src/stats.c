@@ -2,7 +2,9 @@
 
 size_t vector_size(const t_vector *vector)
 {
-	return (vector->length);
+	if (vector == NULL)
+		return (0);
+	return (vector->size);
 }
 
 size_t vector_capacity(const t_vector *vector)
@@ -12,5 +14,5 @@ size_t vector_capacity(const t_vector *vector)
 
 bool vector_valid_index(const t_vector *vector, size_t index)
 {
-	return (index < vector->length);
+	return (index < vector->size);
 }

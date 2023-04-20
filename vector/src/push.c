@@ -4,7 +4,7 @@
 
 t_vector *vector_push_back(t_vector **vector, void *data)
 {
-	return (vector_insert(vector, (*vector)->length, data));
+	return (vector_insert(vector, (*vector)->size, data));
 }
 
 t_vector *vector_push_front(t_vector **vector, void *data)

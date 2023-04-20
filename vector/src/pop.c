@@ -4,7 +4,7 @@
 
 bool vector_pop_back(t_vector *vector, void **data)
 {
-	return (vector_pop(vector, vector->length - 1, data));
+	return (vector_pop(vector, vector->size - 1, data));
 }
 
 bool vector_pop_front(t_vector *vector, void **data)
@@ -14,7 +14,7 @@ bool vector_pop_front(t_vector *vector, void **data)
 
 bool vector_pop(t_vector *vector, size_t index, void **data)
 {
-	if (index >= vector->length)
+	if (index >= vector->size)
 		return (false);
 	if (data != NULL)
 		*data = vector_get(vector, index);

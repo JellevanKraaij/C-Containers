@@ -7,12 +7,12 @@ void vector_clear(t_vector *vector)
 	if (vector->destroy_fn)
 	{
 		i = 0;
-		while (i < vector->length)
+		while (i < vector->size)
 		{
 			vector->destroy_fn(vector->data[i], vector->destroy_user_data);
 			i++;
 		}
 	}
-	vector->length = 0;
+	vector->size = 0;
 }
 

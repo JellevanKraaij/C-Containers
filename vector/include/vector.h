@@ -13,7 +13,7 @@ typedef void (*t_vector_destroy_fn)(void *data, void *user_data);
 
 typedef struct t_vector {
 	void **data;
-	size_t length;
+	size_t size;
 	size_t capacity;
 	t_vector_destroy_fn destroy_fn;
 	void *destroy_user_data;
@@ -104,8 +104,9 @@ void vector_set_compare_fn(t_vector *vector, t_vector_cmp_fn compare_fn, void *u
 
 /**
  * @brief Get size of the vector (number of elements)
+ * @details Will return 0 if vector is NULL
  * 
- * @param vector 
+ * @param vector (null pointer is allowed)
  * @return vector size
  */
 size_t vector_size(const t_vector *vector);
@@ -158,7 +159,7 @@ t_vector *vector_push_front(t_vector **vector, void *data);
  * @brief Insert an element at index
  * 
  * @attention If this function fails, the vector is destroyed
- * @attention If the index is equal or greater than the length, the element will be added to the end
+ * @attention If the index is equal or greater than the size, the element will be added to the end
  * 
  * @param vector 
  * @param index 
@@ -244,6 +245,16 @@ void *vector_get(const t_vector *vector, size_t index);
  */
 bool vector_at(const t_vector *vector, size_t index, void **data);
 
+/**
+ * @brief Get the address of the element at index
+ * @attention No bounds checking is done
+ * 
+ * @param vector 
+ * @param index 
+ * @return pointer to the data
+ */
+void **vector_get_addr(const t_vector *vector, size_t index);
+
 // ---[ Set functions ]---------------------------------------------------------------------------
 
 /**
@@ -262,28 +273,28 @@ bool vector_set(t_vector *vector, size_t index, void *data);
 // ---[ Modify functions ]------------------------------------------------------------------------
 
 /**
- * @brief Truncate the vector to length
+ * @brief Truncate the vector to size
  * 
  * @attention Removed elements are destroyed
- * @attention If the length is greater than the current length, nothing happens
+ * @attention If the size is greater than the current size, nothing happens
  * 
  * @param vector 
- * @param length 
+ * @param size 
  * @return true if the vector was truncated
- * @return false if the length is greater than the current length
+ * @return false if the size is greater than the current size
  */
-void vector_truncate(t_vector *vector, size_t length);
+void vector_truncate(t_vector *vector, size_t size);
 
 /**
- * @brief Resize the vector to length
+ * @brief Resize the vector to size
  * 
- * @attention If the length is greater than the current length, the vector will be extended NULL elements
- * @attention If the length is smaller than the current length, the vector will be truncated
+ * @attention If the size is greater than the current size, the vector will be extended with NULL elements
+ * @attention If the size is smaller than the current size, the vector will be truncated
  * @attention Removed elements are destroyed
  * 
  * @param vector 
- * @param length 
+ * @param size 
  */
-t_vector *vector_resize(t_vector **vector, size_t length);
+t_vector *vector_resize(t_vector **vector, size_t size);
 
 #endif

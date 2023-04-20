@@ -20,49 +20,49 @@ t_vector *vector_shrink(t_vector **vector)
 {
 	void **new_data;
 
-	if ((*vector)->length == (*vector)->capacity)
+	if ((*vector)->size == (*vector)->capacity)
 		return (*vector);
-	new_data = realloc((*vector)->data, (*vector)->length * sizeof(void *));
+	new_data = realloc((*vector)->data, (*vector)->size * sizeof(void *));
 	if (new_data == NULL)
 		return (vector_destroy_null(vector), NULL);
 	(*vector)->data = new_data;
-	(*vector)->capacity = (*vector)->length;
+	(*vector)->capacity = (*vector)->size;
 	return (*vector);
 }
 
-t_vector *vector_resize(t_vector **vector, size_t length)
+t_vector *vector_resize(t_vector **vector, size_t size)
 {
 	size_t i;
 
-	if (vector_reserve(vector, length) == NULL)
+	if (vector_reserve(vector, size) == NULL)
 		return (NULL);
-	if (length < (*vector)->length)
-		return (vector_truncate(*vector, length), *vector);
-	i = (*vector)->length;
-	while (i < length)
+	if (size < (*vector)->size)
+		return (vector_truncate(*vector, size), *vector);
+	i = (*vector)->size;
+	while (i < size)
 	{
 		(*vector)->data[i] = NULL;
 		i++;
 	}
-	(*vector)->length = length;
+	(*vector)->size = size;
 	return (*vector);
 }
 
-void vector_truncate(t_vector *vector, size_t length)
+void vector_truncate(t_vector *vector, size_t size)
 {
 	size_t i;
 
-	if (length > vector->length)
+	if (size > vector->size)
 		return ;
 
 	if (vector->destroy_fn)
 	{
-		i = length;
-		while (i < vector->length)
+		i = size;
+		while (i < vector->size)
 		{
 			vector->destroy_fn(vector->data[i], vector->destroy_user_data);
 			i++;
 		}
 	}
-	vector->length = length;
+	vector->size = size;
 }

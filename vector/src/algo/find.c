@@ -13,7 +13,7 @@ bool vector_find(t_vector *vector, void *data, size_t *index)
 	size_t i;
 
 	i = 0;
-	while (i < vector->length)
+	while (i < vector->size)
 	{
 		if (vector_data_eq(vector->cmp_fn, vector->cmp_user_data, vector->data[i], data))
 		{

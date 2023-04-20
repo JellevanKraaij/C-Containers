@@ -8,7 +8,7 @@ t_vector *vector_create(void)
 
 	if (vector == NULL)
 		return NULL;
-	vector->length = 0;
+	vector->size = 0;
 	vector->capacity = 0;
 	vector->data = NULL;
 	vector->destroy_fn = NULL;
