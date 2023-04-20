@@ -9,6 +9,9 @@ set(LIB_NAME hashmap)
 add_library(${LIB_NAME} STATIC
 	src/create.c
 	src/destroy.c
+	src/set.c
+	src/resize.c
+	src/internal.c
 )
 
 # ---[ Include directories ]----------------

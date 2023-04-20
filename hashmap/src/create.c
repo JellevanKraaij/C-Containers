@@ -1,19 +1,7 @@
 #include "hashmap.h"
+#include "hashmap-int.h"
 
 #include <stdlib.h>
-
-void hashmap_destroy_vector_fn(void *pair, void *user_data)
-{
-	t_hashmap *hashmap = user_data;
-
-	if (pair == NULL)
-		return;
-
-	if (hashmap->destroy_fn != NULL)
-		hashmap->destroy_fn(((t_hashmap_pair *)pair)->key, ((t_hashmap_pair *)pair)->value, hashmap->destroy_userdata);
-
-	free(pair);
-}
 
 t_hashmap *hashmap_create(void)
 {
@@ -21,17 +9,22 @@ t_hashmap *hashmap_create(void)
 
 	if (hashmap == NULL)
 		return (NULL);
-	hashmap->size = 0;
-	hashmap->capacity = 0;
 	hashmap->vector = vector_create();
 	if (hashmap->vector == NULL)
 		return (free(hashmap), NULL);
-	vector_set_destroy_fn(hashmap->vector, hashmap_destroy_vector_fn, hashmap);
+	vector_set_destroy_fn(hashmap->vector, _hashmap_destroy_hash_vector_fn, hashmap);
+	hashmap->capacity = 0;
+	hashmap->size = 0;
 	hashmap->destroy_fn = NULL;
 	hashmap->destroy_userdata = NULL;
 	hashmap->key_cmp_fn = NULL;
 	hashmap->key_cmp_userdata = NULL;
 	hashmap->hash_fn = NULL;
 	hashmap->hash_userdata = NULL;
+	hashmap->load_factor = HASHMAP_DEFAULT_LOAD_FACTOR;
+
+	if (hashmap_reserve(&hashmap, HASHMAP_DEFAULT_CAPACITY) == NULL)
+		return (hashmap_destroy_null(&hashmap), NULL);
+	hashmap->capacity = HASHMAP_DEFAULT_CAPACITY;
 	return (hashmap);
 }
